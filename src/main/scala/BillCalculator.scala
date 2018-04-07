@@ -1,5 +1,5 @@
 import scala.collection.immutable.HashMap
 
-case class BillCalculator(menu: HashMap[String, Float]) {
-
+case class BillCalculator(menu: HashMap[String, Double]) {
+  require(Option(menu).map(_.nonEmpty) == Option(true), "Menu must not be empty")
 }
