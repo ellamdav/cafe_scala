@@ -5,10 +5,10 @@ import scala.collection.immutable.HashMap
 class BillCalculatorSpec extends FunSpec with Matchers {
 
   val menu = HashMap(
-    "Cola"            -> 0.50,
-    "Coffee"          -> 1.00,
-    "Cheese Sandwich" -> 2.00,
-    "Steak Sandwich"  -> 4.50
+    "Cola"            -> BigDecimal(0.50),
+    "Coffee"          -> BigDecimal(1.00),
+    "Cheese Sandwich" -> BigDecimal(2.00),
+    "Steak Sandwich"  -> BigDecimal(4.50)
   )
   val billCalculator = BillCalculator(menu)
 
@@ -20,7 +20,7 @@ class BillCalculatorSpec extends FunSpec with Matchers {
       }
 
       it("should throw if the menu is empty") {
-        val menu = new HashMap[String, Double]
+        val menu = new HashMap[String, BigDecimal]
         the [IllegalArgumentException] thrownBy {
           BillCalculator(menu)
         } should have message "requirement failed: Menu must not be empty"
@@ -30,7 +30,7 @@ class BillCalculatorSpec extends FunSpec with Matchers {
     describe("calculateBillTotal") {
       it("should accept order items as a list of strings, and return a total amount") {
         val order = List("Cola")
-        billCalculator.calculateBillTotal(order) shouldBe a[java.lang.Double] // TODO why java.lang.Double ?
+        billCalculator.calculateBillTotal(order) shouldBe a[BigDecimal]
       }
 
       it("should return the value of a single item") {
@@ -50,12 +50,12 @@ class BillCalculatorSpec extends FunSpec with Matchers {
 
       it("should return the total value of three different items") {
         val order = List("Cola", "Coffee", "Cheese Sandwich")
-        billCalculator.calculateBillTotal(order) should equal (3.50)
+        billCalculator.calculateBillTotal(order) should equal (3.85)
       }
 
       it("should return the total value of four different items") {
         val order = List("Cola", "Coffee", "Cheese Sandwich", "Steak Sandwich")
-        billCalculator.calculateBillTotal(order) should equal (8.00)
+        billCalculator.calculateBillTotal(order) should equal (8.80)
       }
 
       it("should throw if an unknown item is encountered") {
@@ -70,6 +70,13 @@ class BillCalculatorSpec extends FunSpec with Matchers {
           it("does not add a service charge") {
             val order = List("Cola", "Coffee", "Coffee")
             billCalculator.calculateBillTotal(order) should equal (2.50)
+          }
+        }
+
+        describe("When an order includes food") {
+          it("adds a 10% service charge") {
+            val order = List("Cheese Sandwich")
+            billCalculator.calculateBillTotal(order) should equal (2.20)
           }
         }
       }
