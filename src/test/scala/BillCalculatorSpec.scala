@@ -2,12 +2,17 @@ import org.scalatest._
 
 import scala.collection.immutable.HashMap
 
-class BillCalculatorSpec extends FlatSpec with Matchers {
+class BillCalculatorSpec extends FunSpec with Matchers {
 
-  "A BillCalculator" should "accept a menu" in {
-    val menu = new HashMap[String, Float]
-    val billCalculator = BillCalculator(menu)
-    billCalculator shouldBe a [BillCalculator]
+  describe("A BillCalculator") {
+
+    describe("Constructor") {
+      it("should accept a menu") {
+        val menu = new HashMap[String, Float]
+        val billCalculator = BillCalculator(menu)
+        billCalculator shouldBe a[BillCalculator]
+      }
+    }
   }
 
 }
