@@ -95,6 +95,12 @@ class BillCalculatorSpec extends FunSpec with Matchers {
             billCalculator.calculateBillTotal(order) should equal (5.40)
           }
         }
+
+        it("is capped at £20") {
+          val order = List.fill(100)("Steak Sandwich")
+          billCalculator.calculateBillTotal(order) should equal (470.00)
+        }
+
       }
     }
   }
