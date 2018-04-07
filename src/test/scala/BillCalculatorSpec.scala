@@ -29,7 +29,7 @@ class BillCalculatorSpec extends FunSpec with Matchers {
 
     describe("calculateBillTotal") {
       it("should accept order items as a list of strings, and return a total amount") {
-        val order = List("Whatever")
+        val order = List("Cola")
         billCalculator.calculateBillTotal(order) shouldBe a[java.lang.Double] // TODO why java.lang.Double ?
       }
 
@@ -56,6 +56,13 @@ class BillCalculatorSpec extends FunSpec with Matchers {
       it("should return the total value of four different items") {
         val order = List("Cola", "Coffee", "Cheese Sandwich", "Steak Sandwich")
         billCalculator.calculateBillTotal(order) should equal (8.00)
+      }
+
+      it("should throw if an unknown item is encountered") {
+        val order = List("Latte")
+        the [NoSuchElementException] thrownBy {
+          billCalculator.calculateBillTotal(order)
+        } should have message "key not found: Latte"
       }
     }
   }
