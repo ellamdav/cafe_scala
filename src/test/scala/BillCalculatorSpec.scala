@@ -64,6 +64,15 @@ class BillCalculatorSpec extends FunSpec with Matchers {
           billCalculator.calculateBillTotal(order)
         } should have message "key not found: Latte"
       }
+
+      describe("Service charges") {
+        describe("When order includes only drinks") {
+          it("does not add a service charge") {
+            val order = List("Cola", "Coffee", "Coffee")
+            billCalculator.calculateBillTotal(order) should equal (2.50)
+          }
+        }
+      }
     }
   }
 
