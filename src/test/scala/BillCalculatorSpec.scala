@@ -28,6 +28,13 @@ class BillCalculatorSpec extends FunSpec with Matchers {
         val order = List("Whatever")
         billCalculator.calculateBillTotal(order) shouldBe a[java.lang.Double] // TODO why java.lang.Double ?
       }
+
+      it("should return the value of a single item") {
+        val menu = HashMap("Cola" -> 0.50)
+        val billCalculator = BillCalculator(menu)
+        val order = List("Cola")
+        billCalculator.calculateBillTotal(order) should equal (0.50)
+      }
     }
   }
 
