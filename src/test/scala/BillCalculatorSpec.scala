@@ -4,7 +4,7 @@ import scala.collection.immutable.HashMap
 
 class BillCalculatorSpec extends FunSpec with Matchers {
 
-  val menu = HashMap("Cola" -> 0.50)
+  val menu = HashMap("Cola" -> 0.50, "Coffee" -> 1.00)
   val billCalculator = BillCalculator(menu)
 
   describe("A BillCalculator") {
@@ -36,6 +36,11 @@ class BillCalculatorSpec extends FunSpec with Matchers {
       it("should return the total value of two items") {
         val order = List("Cola", "Cola")
         billCalculator.calculateBillTotal(order) should equal (1.00)
+      }
+
+      it("should return the total value of two different items") {
+        val order = List("Cola", "Coffee")
+        billCalculator.calculateBillTotal(order) should equal (1.50)
       }
     }
   }
