@@ -20,6 +20,15 @@ class BillCalculatorSpec extends FunSpec with Matchers {
         } should have message "requirement failed: Menu must not be empty"
       }
     }
+
+    describe("calculateBillTotal") {
+      it("should accept order items as a list of strings, and return a total amount") {
+        val menu = HashMap("Cola" -> 0.50)
+        val billCalculator = BillCalculator(menu)
+        val order = List("Whatever")
+        billCalculator.calculateBillTotal(order) shouldBe a[java.lang.Double] // TODO why java.lang.Double ?
+      }
+    }
   }
 
 }
