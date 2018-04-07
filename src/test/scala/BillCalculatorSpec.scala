@@ -4,12 +4,13 @@ import scala.collection.immutable.HashMap
 
 class BillCalculatorSpec extends FunSpec with Matchers {
 
+  val menu = HashMap("Cola" -> 0.50)
+  val billCalculator = BillCalculator(menu)
+
   describe("A BillCalculator") {
 
     describe("Constructor") {
-      it("should accept a menu") {
-        val menu = HashMap("Cookie" -> 0.25)
-        val billCalculator = BillCalculator(menu)
+      it("should accept a menu and return a bill calculator") {
         billCalculator shouldBe a[BillCalculator]
       }
 
@@ -23,22 +24,16 @@ class BillCalculatorSpec extends FunSpec with Matchers {
 
     describe("calculateBillTotal") {
       it("should accept order items as a list of strings, and return a total amount") {
-        val menu = HashMap("Cola" -> 0.50)
-        val billCalculator = BillCalculator(menu)
         val order = List("Whatever")
         billCalculator.calculateBillTotal(order) shouldBe a[java.lang.Double] // TODO why java.lang.Double ?
       }
 
       it("should return the value of a single item") {
-        val menu = HashMap("Cola" -> 0.50)
-        val billCalculator = BillCalculator(menu)
         val order = List("Cola")
         billCalculator.calculateBillTotal(order) should equal (0.50)
       }
 
       it("should return the total value of two items") {
-        val menu = HashMap("Cola" -> 0.50)
-        val billCalculator = BillCalculator(menu)
         val order = List("Cola", "Cola")
         billCalculator.calculateBillTotal(order) should equal (1.00)
       }
