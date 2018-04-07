@@ -88,6 +88,13 @@ class BillCalculatorSpec extends FunSpec with Matchers {
             billCalculator.calculateBillTotal(order) should equal (3.29)
           }
         }
+
+        describe("When an order includes hot food") {
+          it("adds a 20% service charge") {
+            val order = List("Steak Sandwich")
+            billCalculator.calculateBillTotal(order) should equal (5.40)
+          }
+        }
       }
     }
   }

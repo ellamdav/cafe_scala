@@ -15,6 +15,6 @@ case class BillCalculator(menu: HashMap[String, BigDecimal]) {
   }
 
   private def serviceApplicableFor(order: List[String]): BigDecimal = {
-    if (order.contains("Cheese Sandwich")) 0.1 else 0.0
+    if (order.contains("Cheese Sandwich")) 0.1 else if (order.contains("Steak Sandwich")) 0.2 else 0.0
   }
 }
