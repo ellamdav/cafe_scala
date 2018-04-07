@@ -6,7 +6,8 @@ case class BillCalculator(menu: HashMap[String, BigDecimal]) {
   def calculateBillTotal(order: List[String]): BigDecimal = {
     val totalBeforeService = orderTotal(order)
     val servicePercent = serviceApplicableFor(order)
-    totalBeforeService * (1 + servicePercent)
+    val totalIncludingService = totalBeforeService * (1 + servicePercent)
+    totalIncludingService.setScale(2, BigDecimal.RoundingMode.HALF_UP)
   }
 
   private def orderTotal(order: List[String]): BigDecimal = {

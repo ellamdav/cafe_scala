@@ -78,6 +78,15 @@ class BillCalculatorSpec extends FunSpec with Matchers {
             val order = List("Cheese Sandwich")
             billCalculator.calculateBillTotal(order) should equal (2.20)
           }
+
+          it("rounds the total to 2dp") {
+            val menu = HashMap(
+              "Cheese Sandwich" -> BigDecimal(2.99)
+            )
+            val billCalculator = BillCalculator(menu)
+            val order = List("Cheese Sandwich")
+            billCalculator.calculateBillTotal(order) should equal (3.29)
+          }
         }
       }
     }
