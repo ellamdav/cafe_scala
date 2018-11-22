@@ -8,7 +8,8 @@ class BillCalculatorSpec extends FunSpec with Matchers {
     "Cola"            -> BigDecimal(0.50),
     "Coffee"          -> BigDecimal(1.00),
     "Cheese Sandwich" -> BigDecimal(2.00),
-    "Steak Sandwich"  -> BigDecimal(4.50)
+    "Steak Sandwich"  -> BigDecimal(4.50),
+    "Lobster"         -> BigDecimal(25.00)
   )
   val billCalculator = BillCalculator(menu)
 
@@ -94,11 +95,30 @@ class BillCalculatorSpec extends FunSpec with Matchers {
             val order = List("Steak Sandwich")
             billCalculator.calculateBillTotal(order) should equal (5.40)
           }
+
+          it("is capped at £20") {
+            val order = List.fill(100)("Steak Sandwich")
+            billCalculator.calculateBillTotal(order) should equal (470.00)
+          }
         }
 
-        it("is capped at £20") {
-          val order = List.fill(100)("Steak Sandwich")
-          billCalculator.calculateBillTotal(order) should equal (470.00)
+        describe("When an order includes premium food") {
+          it("adds a 25% service charge") {
+            val order = List("Lobster")
+            billCalculator.calculateBillTotal(order) should equal (31.25)
+          }
+
+          it("is capped at £40") {
+            val order = List.fill(10)("Lobster")
+            billCalculator.calculateBillTotal(order) should equal (290.00)
+          }
+        }
+
+        describe("invalid order") {
+          it("doesn't blow up") {
+            val order = List("Naan")
+            billCalculator.calculateBillTotal(order) should equal (0.0)
+          }
         }
 
       }

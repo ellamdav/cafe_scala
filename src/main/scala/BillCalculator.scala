@@ -15,14 +15,22 @@ case class BillCalculator(menu: HashMap[String, BigDecimal]) {
 
   private def calculateServiceAmount(totalBeforeService: BigDecimal, order: List[String]): BigDecimal = {
     val servicePercent = serviceApplicableFor(order)
-    val serviceAmount = (totalBeforeService * servicePercent).min(20.00)
+    val serviceAmount = (totalBeforeService * servicePercent).min(maxServiceAmountFor(order))
     serviceAmount
+  }
+
+  private def maxServiceAmountFor(order: List[String]): BigDecimal = {
+    order match {
+      case _ if order.contains("Lobster") => 40.0
+      case _ => 20.0
+    }
   }
 
   private def serviceApplicableFor(order: List[String]): BigDecimal = {
     order match {
       case _ if order.contains("Cheese Sandwich") => 0.1
       case _ if order.contains("Steak Sandwich")  => 0.2
+      case _ if order.contains("Lobster")         => 0.25
       case _ => 0.0
     }
   }
